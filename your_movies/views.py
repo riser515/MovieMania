@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.serializers import HyperlinkedRelatedField
-from .models import User, Movie, Review
-from .serializers import UserSerializer, MovieSerializer, ReviewSerializer
+from ..models import User, Movie, Review
+from ..serializers import UserSerializer, MovieSerializer, ReviewSerializer
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def all_movies(request):
