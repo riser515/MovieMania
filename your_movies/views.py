@@ -9,6 +9,7 @@ import os
 
 load_dotenv()
 
+# API to access all movies using movies/
 @api_view(['GET'])
 def all_movies(request):
     try:
@@ -20,6 +21,7 @@ def all_movies(request):
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
     
+# API to post a movie using movies/create_movie
 @api_view(['GET', 'POST'])
 def post_movie(request):
     if request.method == 'GET':
@@ -36,6 +38,7 @@ def post_movie(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# API to access movies based on movie_id using movies/movie_id/
 @api_view(['GET', 'PUT', 'DELETE'])
 def specific_movie(request, pk_movie_id):
     try:
@@ -73,7 +76,20 @@ def specific_movie(request, pk_movie_id):
             return Response("Movie has been deleted", status=status.HTTP_204_NO_CONTENT)
         except Movie.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+# API to access all reviews using reviews/
+@api_view(['GET'])
+def all_reviews(request):
+    try:
+        reviews = Review.objects.all()
+    except Review.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
     
+# API to access reviews using reviews/movie_id/
 @api_view(['GET', 'POST'])
 def review_movie(request, fk_movie_id):
     try:
@@ -97,6 +113,7 @@ def review_movie(request, fk_movie_id):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# API to update a review by review_id using reviews/review_id
 @api_view(['GET', 'PUT', 'DELETE'])
 def update_review(request, pk_review_id):
     try:
@@ -127,17 +144,7 @@ def update_review(request, pk_review_id):
         except Review.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
-@api_view(['GET'])
-def all_reviews(request):
-    try:
-        reviews = Review.objects.all()
-    except Review.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
-    
+# API to post a review using reviews/create_review 
 @api_view(['GET', 'POST'])
 def post_review(request):
     if request.method == 'GET':
