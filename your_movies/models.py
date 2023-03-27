@@ -15,11 +15,15 @@ class User(models.Model):
 class Movie(models.Model):
     class Meta:
         verbose_name_plural = 'Movies'
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'movie_name'], name='unique_movie_for_user'),
+        ]
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie_name = models.CharField(max_length=30)
-    description = models.CharField(max_length=100)
-    release_date = models.DateField()
+    movie_name = models.CharField(max_length=255)
+    director = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    release_date = models.DateField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
@@ -31,6 +35,6 @@ class Review(models.Model):
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    rating = models.FloatField()
-    comment = models.CharField(max_length=100)
+    rating = models.IntegerField()
+    comment = models.TextField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)

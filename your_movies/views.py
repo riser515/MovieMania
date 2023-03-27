@@ -22,6 +22,7 @@ def all_movies(request):
         data = {
             'user_id': user.id,
             'movie_name': request.data.get('movie_name'),
+            'director': request.data.get('director'),
             'description': request.data.get('description'),
             'release_date': request.data.get('release_date'),
             'is_deleted': False

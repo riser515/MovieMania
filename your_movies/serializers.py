@@ -13,7 +13,7 @@ class MovieSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ['id', 'movie_name', 'description', 'user_id', 'release_date', 'is_deleted']
+        fields = ['id', 'movie_name', 'director', 'description', 'user_id', 'release_date', 'is_deleted']
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
