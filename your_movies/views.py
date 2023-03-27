@@ -28,7 +28,7 @@ def post_movie(request):
         return Response("Please enter your movie here...", status=status.HTTP_200_OK)
     
     if request.method == 'POST':
-        user = User.objects.get(id=os.environ.get('STATIC_USER_ID'))
+        user = User.objects.get(id=os.environ.get('STATIC_USER_ID'), is_deleted=False)
         data = request.data
         data["user_id"] = user.id
         
@@ -42,7 +42,7 @@ def post_movie(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def specific_movie(request, pk_movie_id):
     try:
-        movie = Movie.objects.get(id=pk_movie_id)
+        movie = Movie.objects.get(id=pk_movie_id, is_deleted=False)
     except Movie.DoesNotExist:
         return Response("Movie does not exist", status=status.HTTP_404_NOT_FOUND)
     
@@ -69,7 +69,7 @@ def specific_movie(request, pk_movie_id):
     
     elif request.method == 'DELETE':
         try:
-            movie = Movie.objects.get(id = pk_movie_id)
+            movie = Movie.objects.get(id = pk_movie_id, is_deleted=False)
             movie.is_deleted = True
             movie.user_id = user
             movie.save()
@@ -93,7 +93,7 @@ def all_reviews(request):
 @api_view(['GET', 'POST'])
 def review_movie(request, fk_movie_id):
     try:
-        review = Review.objects.filter(movie_id=fk_movie_id, user_id = os.environ.get('STATIC_USER_ID'))
+        review = Review.objects.filter(movie_id=fk_movie_id, user_id = os.environ.get('STATIC_USER_ID'), is_deleted=False)
     except Review.DoesNotExist:
         return Response("No review", status=status.HTTP_404_NOT_FOUND)
     
@@ -102,7 +102,7 @@ def review_movie(request, fk_movie_id):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        user = User.objects.get(id = os.environ.get('STATIC_USER_ID')) 
+        user = User.objects.get(id = os.environ.get('STATIC_USER_ID'), is_deleted=False) 
         data = request.data     
         data['user_id'] = user.id
         data["movie_id"] = fk_movie_id   
@@ -117,7 +117,7 @@ def review_movie(request, fk_movie_id):
 @api_view(['GET', 'PUT', 'DELETE'])
 def update_review(request, pk_review_id):
     try:
-        review = Review.objects.get(id=pk_review_id)
+        review = Review.objects.get(id=pk_review_id, is_deleted=False)
     except Review.DoesNotExist:
         return Response("No review", status=status.HTTP_404_NOT_FOUND)
     
@@ -151,14 +151,14 @@ def post_review(request):
         return Response("Please post your review here", status=status.HTTP_200_OK)
     
     elif request.method == 'POST':
-        user = User.objects.get(id = os.environ.get('STATIC_USER_ID')) 
+        user = User.objects.get(id = os.environ.get('STATIC_USER_ID'), is_deleted=False) 
         data = request.data
         data['user_id'] = user.id
 
         if "movie_id" not in data:
             return Response("Movie ID is required", status=status.HTTP_400_BAD_REQUEST)
         else:
-            movie = Movie.objects.filter(id=request.data["movie_id"], user_id=user.id)
+            movie = Movie.objects.filter(id=request.data["movie_id"], user_id=user.id, is_deleted=False)
             if not movie:
                 return Response("Invalid movie id", status=status.HTTP_400_BAD_REQUEST)
 
