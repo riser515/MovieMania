@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class User(models.Model):
     class Meta:
@@ -35,6 +36,6 @@ class Review(models.Model):
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)

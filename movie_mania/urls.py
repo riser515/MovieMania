@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 
 urlpatterns = [
-    re_path(r'^', include('your_movies.urls')),
+    re_path(r'^api/v1/', include('your_movies.urls')),
     re_path(
         r'^api-auth/',
         include('rest_framework.urls')
