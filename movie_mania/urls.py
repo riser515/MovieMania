@@ -15,12 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+from your_movies import views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
+    re_path(r'^', views.signup, name='home'),
     re_path(r'^api/v1/', include('your_movies.urls')),
     re_path(
         r'^api-auth/',
         include('rest_framework.urls')
     ),
     re_path(r'^admin/', admin.site.urls),
+    re_path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    re_path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    re_path('login/', views.login, name='login'),
+    re_path('signup/', views.signup, name='signup')
 ]

@@ -1,5 +1,6 @@
 asgiref==3.6.0
 Django==4.1.7
+django-filter==23.1
 djangorestframework==3.14.0
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==5.2.2
@@ -9,4 +10,5 @@ pyngrok==5.2.1
 python-dotenv==1.0.0
 pytz==2023.2
 PyYAML==6.0
+rest-framework-simplejwt==0.0.2
 sqlparse==0.4.3
