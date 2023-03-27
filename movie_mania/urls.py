@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    re_path(r'^', views.signup, name='home'),
+    re_path(r'^/', views.signup, name='home'),
     re_path(r'^api/v1/', include('your_movies.urls')),
     re_path(
         r'^api-auth/',
